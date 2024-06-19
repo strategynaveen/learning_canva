@@ -20,6 +20,7 @@ import Select from '@mui/material/Select';
 import Slider from '@mui/material/Slider';
 import ShareSharpIcon from '@mui/icons-material/ShareSharp';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
+import { getToken , removeToken } from '../../utils/token';
 const Navbar_code = ({userLang,setUserLang,userTheme,setUserTheme,onClick}) => {
    
     const downloadCode = ()=>{
@@ -37,6 +38,12 @@ const Navbar_code = ({userLang,setUserLang,userTheme,setUserTheme,onClick}) => {
 		{ value: "light", label: "Light" }, 
 	] 
 
+    const logoutHandle = ()=>{
+        removeToken();
+        // navigate('/login');
+        window.location.reload();
+    }
+
     
     
     return(
@@ -48,7 +55,7 @@ const Navbar_code = ({userLang,setUserLang,userTheme,setUserTheme,onClick}) => {
                         <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white ">Strategy Learning</span>
                     </a>
                     <div class="flex items-center space-x-6 rtl:space-x-reverse">
-                        <a href="/" class="text-sm  text-blue-600 dark:text-blue-500 hover:underline ">Login</a>
+                        <button onClick={logoutHandle}  class="text-sm  text-blue-600 dark:text-blue-500 hover:underline ">Logout</button>
                     </div>
                 </div>
             </nav>

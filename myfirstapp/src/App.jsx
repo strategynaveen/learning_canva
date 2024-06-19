@@ -5,16 +5,27 @@ import './App.css'
 import Login from './components/Login'
 import Signup from './components/Signup';
 import Forgot_pass from './components/Forgot_pass';
-import { NavLink ,BrowserRouter , Router, Routes ,Route} from "react-router-dom";
+import { NavLink ,BrowserRouter , Router, Routes ,Route,Navigate} from "react-router-dom";
 import Pagenotfound from './error/Pagenotfound';
-import Home from './components/Home';
 import Home_code from './components/code_compiler/Home_code';
-import Certificate from './components/certificate/custome_certificate';
+import Certificate_custome from './Customer_Certificate/Certificate_custome.jsx'
+
+import Home from './components/Home';
+
+import { getToken,removeToken } from './utils/token'
 
 // material ui
 
 function App() {
+  
   const [count, setCount] = useState(0)
+  const [token, setToken] = useState(getToken() || '');
+
+  const handleLogout = () => {
+    setToken('');
+    removeToken();
+  };
+
 
 
   return (
@@ -22,12 +33,26 @@ function App() {
       {/* <Login></Login> */}
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/forgot_password" element={<Forgot_pass />}></Route>
-          <Route path="/index_page"  element={<Home />}></Route>
-          <Route path="/code" element={<Home_code />}></Route>
-          <Route path="/certificate*" element={<Certificate />}></Route>
+          {token?(
+            <>
+              
+              
+              <Route path="/code" element={<Home_code />}></Route>
+              <Route path="/certificate*" element={<Certificate_custome />}></Route>
+              <Route path='/home' element={<Home />}></Route>
+              <Route path="*" element={<Navigate to="/home" />} />
+            </>
+          ):(
+            <>
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/forgot_password" element={<Forgot_pass />}></Route>
+              <Route path="*" element={<Navigate to="/login" />} />
+            </>
+          )}
+         
+
+
         </Routes>
       </BrowserRouter>
     </>
